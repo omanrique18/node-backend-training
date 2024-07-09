@@ -9,7 +9,10 @@ export class Server {
     console.log('server started')
 
     CronAdapter.createJob( '*/5 * * * * *', () => {
-      new CheckService().execute( 'https://jsonplaceholder.typicode.com/posts' )
+      new CheckService(
+        () => console.log('success'),
+        (error) => console.log(error)
+      ).execute( 'https://jsonplaceholder.typicode.com/posts' )
     })
   }
 }

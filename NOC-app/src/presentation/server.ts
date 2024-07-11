@@ -1,4 +1,4 @@
-import { CronAdapter } from "../adapters/cron-adapter"
+import { CronService } from "./services/cron.service"
 import { CheckService } from "../domain/use-cases/checks/check-service"
 import { FileSystemDatasource } from "../infrastructure/datasources/file-system.datasource"
 import { LogRepositoryImpl } from "../infrastructure/repositories/log.repository.impl"
@@ -13,7 +13,7 @@ export class Server {
 
     console.log('server started')
 
-    CronAdapter.createJob( '*/5 * * * * *', () => {
+    CronService.createJob( '*/5 * * * * *', () => {
       const url = 'https://jsonplaceholder.typicode.com/posts'
       new CheckService(
         fileSystemLogRepository,

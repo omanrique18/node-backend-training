@@ -3,7 +3,7 @@ import { CronJob } from "cron";
 type CronTime = string | Date
 type OnTick = () => void
 
-export class CronAdapter {
+export class CronService {
 
   static createJob( cronTime: CronTime, onTick: OnTick ) {
 

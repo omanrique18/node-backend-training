@@ -3,27 +3,27 @@ import { CheckService } from '../domain/use-cases/checks/check-service'
 import { FileSystemDatasource } from '../infrastructure/datasources/file-system.datasource'
 import { LogRepositoryImpl } from '../infrastructure/repositories/log.repository.impl'
 import { EmailService } from './services/email.service'
+import { MongoDatasource } from '../infrastructure/datasources/mongo.datasource'
+import { LogSeverityLevel } from '../domain/entities/log.entity'
 
 const fileSystemLogRepository = new LogRepositoryImpl(
   new FileSystemDatasource(),
 )
+const mongoLogRepository = new LogRepositoryImpl(
+  new MongoDatasource(),
+)
 
 export class Server {
   
-  static start() {
+  static async start() {
 
     console.log('server started')
 
-    const emailService = new EmailService(fileSystemLogRepository)
+    //* Email service implementation
+    // const emailService = new EmailService(fileSystemLogRepository)
+    // emailService.sendEmailWithFileSystemLogs('example@example.com')
 
-    emailService.sendEmail({
-      to: 'example@example.com',
-      subject: 'test',
-      htmlBody: 'test',
-      attachments: []
-    })
-
-    CronService.createJob( '*/5 * * * * *', () => {
+    CronService.createJob( '*/10 * * * * *', () => {
       const url = 'https://jsonplaceholder.typicode.com/posts'
       new CheckService(
         fileSystemLogRepository,

@@ -1,16 +1,20 @@
 import { CronService } from './services/cron.service'
 import { CheckService } from '../domain/use-cases/checks/check-service'
-import { FileSystemDatasource } from '../infrastructure/datasources/file-system.datasource'
+import { FileSystemLogDatasource } from '../infrastructure/datasources/file-system.datasource'
 import { LogRepositoryImpl } from '../infrastructure/repositories/log.repository.impl'
 import { EmailService } from './services/email.service'
-import { MongoDatasource } from '../infrastructure/datasources/mongo.datasource'
+import { MongoLogDatasource } from '../infrastructure/datasources/mongo.datasource'
 import { LogSeverityLevel } from '../domain/entities/log.entity'
+import { PostgresLogDatasource } from '../infrastructure/datasources/postgres.datasource'
 
 const fileSystemLogRepository = new LogRepositoryImpl(
-  new FileSystemDatasource(),
+  new FileSystemLogDatasource(),
 )
 const mongoLogRepository = new LogRepositoryImpl(
-  new MongoDatasource(),
+  new MongoLogDatasource(),
+)
+const postgresLogRepository = new LogRepositoryImpl(
+  new PostgresLogDatasource(),
 )
 
 export class Server {
@@ -26,7 +30,7 @@ export class Server {
     CronService.createJob( '*/10 * * * * *', () => {
       const url = 'https://jsonplaceholder.typicode.com/posts'
       new CheckService(
-        fileSystemLogRepository,
+        postgresLogRepository,
         () => console.log(`Request to ${ url } succeeded`),
         (error) => console.log(`Request to ${ url } failed with error ${ error }`)
       ).execute( url )

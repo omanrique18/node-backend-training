@@ -9,4 +9,5 @@ export const envs = {
   MAILER_PASSWORD: env.get('MAILER_PASSWORD').required().asString(),
   MONGO_URL: env.get('MONGO_URL').required().asString(),
   MONGO_DB_NAME: env.get('MONGO_DB_NAME').required().asString(),
+  POSTGRES_URL: env.get('POSTGRES_URL').required().asString(),
 }

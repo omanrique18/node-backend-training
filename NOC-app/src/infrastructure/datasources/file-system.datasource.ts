@@ -3,7 +3,7 @@ import { LogEntity, LogSeverityLevel } from "../../domain/entities/log.entity";
 import fs from 'fs'
 
 
-export  class FileSystemDatasource implements LogDatasource {
+export  class FileSystemLogDatasource implements LogDatasource {
 
   private readonly logPath = './logs/'
   private readonly logFilesPaths = {
